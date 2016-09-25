@@ -53,7 +53,7 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 
 	public CommandHelp(PluginClass plugin)
 	{
-		super(HELP, plugin);
+		super("help", plugin);
 		this.setAliases(Lists.newArrayList(HELP, "help", "h", "?"));
 		this.addArgument(new CommandArgument<Integer>(PAGE, ArgTypeInteger.get(), 1, false, false, Locale.help_page_number));
 	}
