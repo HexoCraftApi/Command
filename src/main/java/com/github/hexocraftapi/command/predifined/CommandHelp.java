@@ -78,7 +78,7 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 		Command<?> parentCommand = command.getParentCommand();
 
 		// Main command
-		Command<?> mainCommand = command.getName().toLowerCase().equals(HELP.toLowerCase()) ? parentCommand : command;
+		Command<?> mainCommand = command.getName().toLowerCase().equals("help") ? parentCommand : command;
 		if(mainCommand.getMaxArgs() > 0)
 		{
 			CommandInfo mainCommandInfo = new CommandInfo(commandInfo.getSender(), mainCommand, mainCommand.getName(), new String[0], null);
