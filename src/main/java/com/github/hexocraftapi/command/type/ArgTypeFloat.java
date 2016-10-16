@@ -30,9 +30,9 @@ public class ArgTypeFloat implements ArgType<Float>
 	public static ArgTypeFloat get() { return t; }
 
 	@Override
-	public boolean check(String dbl)
+	public boolean check(String flt)
 	{
-		return get(dbl)!=null;
+		return get(flt)!=null;
 	}
 
 	@Override

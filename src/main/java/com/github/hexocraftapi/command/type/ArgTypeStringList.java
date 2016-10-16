@@ -32,9 +32,9 @@ public class ArgTypeStringList implements ArgType<List<String>>
 	public static ArgTypeStringList get() { return t; }
 
 	@Override
-	public boolean check(String dbl)
+	public boolean check(String string)
 	{
-		return get(dbl)!=null;
+		return get(string)!=null;
 	}
 
 	@Override
