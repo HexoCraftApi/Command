@@ -415,7 +415,11 @@ public abstract class Command<PluginClass extends JavaPlugin> extends org.bukkit
 		{
 			String arg = args[i];
 
-			if(arg.startsWith("\""))
+			if(arg.startsWith("\"") && arg.endsWith("\""))
+			{
+				newArgs.add(arg.substring(1, arg.length() - 1));
+			}
+			else if(arg.startsWith("\""))
 			{
 				String tempArg = arg.substring(1);
 				int j;
@@ -438,6 +442,10 @@ public abstract class Command<PluginClass extends JavaPlugin> extends org.bukkit
 
 				newArgs.add(tempArg);
 				i = j;
+			}
+			else if(arg.startsWith("'") && arg.endsWith("'"))
+			{
+				newArgs.add(arg.substring(1, arg.length() - 1));
 			}
 			else if(arg.startsWith("'"))
 			{
