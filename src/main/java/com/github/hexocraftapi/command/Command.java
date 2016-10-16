@@ -407,6 +407,69 @@ public abstract class Command<PluginClass extends JavaPlugin> extends org.bukkit
 		}
 	}
 
+	private String[] reArgs(String[] args)
+	{
+		List<String> newArgs = new ArrayList<>();
+
+		for(int i = 0; i < args.length; i++)
+		{
+			String arg = args[i];
+
+			if(arg.startsWith("\""))
+			{
+				String tempArg = arg.substring(1);
+				int j;
+
+				for(j = i + 1; j < args.length; j++)
+				{
+					arg = args[j];
+					if(arg.endsWith("\""))
+					{
+						tempArg += " ";
+						tempArg += arg.substring(0, arg.length() - 1);
+						break;
+					}
+					else
+					{
+						tempArg += " ";
+						tempArg += arg;
+					}
+				}
+
+				newArgs.add(tempArg);
+				i = j;
+			}
+			else if(arg.startsWith("'"))
+			{
+				String tempArg = arg.substring(1);
+				int j;
+
+				for(j = i + 1; j < args.length; j++)
+				{
+					arg = args[j];
+					if(arg.endsWith("'"))
+					{
+						tempArg += " ";
+						tempArg += arg.substring(0, arg.length() - 1);
+						break;
+					}
+					else
+					{
+						tempArg += " ";
+						tempArg += arg;
+					}
+				}
+
+				newArgs.add(tempArg);
+				i = j;
+			}
+			else
+				newArgs.add(arg);
+		}
+
+		return newArgs.toArray(new String[newArgs.size()]);
+	}
+
 	/**
 	 * Executes the command, returning its success
 	 *
@@ -419,6 +482,9 @@ public abstract class Command<PluginClass extends JavaPlugin> extends org.bukkit
 	@Override
 	public boolean execute(CommandSender sender, String commandLabel, String[] args)
 	{
+		// Reorganise args when detecting string " or '
+		args  = reArgs(args);
+
 		boolean success = false;
 		int minArgs = getMinArgs(sender);
 
@@ -532,7 +598,7 @@ public abstract class Command<PluginClass extends JavaPlugin> extends org.bukkit
 						// Check the string
 						if(argument.getType().check(value))
 						{
-							namedArgs.put(argName, value);
+							namedArgs.put(argName, argument.getType().get(value).toString());
 
 							index++;
 							continue;
