@@ -606,7 +606,7 @@ public abstract class Command<PluginClass extends JavaPlugin> extends org.bukkit
 						// Check the string
 						if(argument.getType().check(value))
 						{
-							namedArgs.put(argName, argument.getType().get(value).toString());
+							namedArgs.put(argName, value);
 
 							index++;
 							continue;
