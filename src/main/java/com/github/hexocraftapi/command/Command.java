@@ -63,12 +63,12 @@ public abstract class Command<PluginClass extends JavaPlugin> extends org.bukkit
 	/**
 	 * List of sub commands
 	 */
-	private final Map<String,Command<?>> subCommands = new LinkedHashMap<String,Command<?>>();
+	private final Map<String,Command<?>> subCommands = new LinkedHashMap<>();
 
 	/**
 	 * List of arguments used for the command
 	 */
-	private final List<CommandArgument<?>> arguments = new ArrayList<CommandArgument<?>>();
+	private final List<CommandArgument<?>> arguments = new ArrayList<>();
 
 	/**
 	 * Indicate that the last argument is an instance of {@link Collection}
@@ -107,7 +107,7 @@ public abstract class Command<PluginClass extends JavaPlugin> extends org.bukkit
 	 *
 	 * @param parentCommand The parent command
 	 */
-	protected void setParentCommand(Command<?> parentCommand)
+	private void setParentCommand(Command<?> parentCommand)
 	{
 		this.parentCommand = parentCommand;
 	}
@@ -150,7 +150,7 @@ public abstract class Command<PluginClass extends JavaPlugin> extends org.bukkit
 	 *
 	 * @return A sub command by its name
 	 */
-	private Command<?> getSubCommand(String subCommandName)
+	public Command<?> getSubCommand(String subCommandName)
 	{
 		for(Map.Entry<String,Command<?>> entry : this.subCommands.entrySet())
 		{
