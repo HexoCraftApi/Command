@@ -17,6 +17,7 @@ package com.github.hexocraftapi.command.type;
  */
 
 import com.github.hexocraftapi.command.CommandInfo;
+import com.github.hexocraftapi.util.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
@@ -58,7 +59,7 @@ public class ArgTypePlayer implements ArgType<Player>
 		String lastWord = commandInfo.numArgs() == 0 ? "" : commandInfo.getArgs().get(commandInfo.numArgs()-1);
 
 		ArrayList<String> matchedPlayers = new ArrayList<String>();
-		for(Player player : commandInfo.getSender().getServer().getOnlinePlayers())
+		for(Player player : PlayerUtil.getOnlinePlayers())
 		{
 			String name = player.getName();
 			if((commandInfo.getPlayer() == null || commandInfo.getPlayer().canSee(player)) && StringUtil.startsWithIgnoreCase(name, lastWord))
