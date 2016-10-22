@@ -84,7 +84,7 @@ public class MessageHelp extends Message
 			Line DescriptionLine = new Line();
 
 			String descriptions[] = command.getDescription().split("\\r?\\n");
-			DescriptionLine.add(new Sentence(" " + descriptions[0]).color(MessageColor.DESCRIPTION.color()));
+			DescriptionLine.add(new Sentence("    " + descriptions[0]).color(MessageColor.DESCRIPTION.color()));
 			//
 			this.add(DescriptionLine);
 		}
