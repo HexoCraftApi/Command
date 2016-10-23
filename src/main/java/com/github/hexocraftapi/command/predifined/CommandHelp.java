@@ -34,14 +34,11 @@ import com.github.hexocraftapi.message.predifined.line.Title;
 import com.github.hexocraftapi.message.predifined.message.EmptyMessage;
 import com.github.hexocraftapi.message.predifined.message.TitleMessage;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static org.bukkit.util.ChatPaginator.CLOSED_CHAT_PAGE_HEIGHT;
 
 /**
  * @author <b>Hexosse</b> (<a href="https://github.com/hexosse">on GitHub</a>))
@@ -221,16 +218,20 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 		{
 			this.commandInfo = commandInfo;
 			this.message = message.build();
-			this.lines = getLines(message);
+			this.lines = getLines(commandInfo, message);
 		}
 
-		private int getLines(MessageHelp message)
+		private int getLines(CommandInfo commandInfo, MessageHelp message)
 		{
-			List<String> lines = new ArrayList<String>();
-			for(Line line : message.getLines())
-				lines.add(line.toString());
-
-			return Chat.wordWrap(StringUtils.join(lines, ' '), Chat.NO_WRAP_CHAT_PAGE_WIDTH).length;
+			if(commandInfo.getPlayer()!=null)
+			{
+				int nbLines = 0;
+				for(Line line : message.getLines())
+					nbLines += Chat.wordWrap(line.toLegacyText(), Chat.NO_WRAP_CHAT_PAGE_WIDTH).length;
+				return nbLines;
+			}
+			else
+				return message.getLines().size();
 		}
 	}
 
@@ -250,14 +251,14 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 
 		public void add(HelpLine line)
 		{
-			// Check if the number of fontLine feet in the current page
+			// Check if the number of line feet in the current page
 			if(this.currentPageLines + line.lines > this.nbLinePerPage)
 			{
 				this.currentPage++;
 				this.currentPageLines = 0;
 			}
 
-			// Update the fontLine. It will know it page number
+			// Update the line. It will know it page number
 			this.currentPageLines += line.lines;
 			line.page = this.currentPage;
 
