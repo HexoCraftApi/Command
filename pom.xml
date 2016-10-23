@@ -22,10 +22,11 @@
 
     <groupId>com.github.hexocraftapi</groupId>
     <artifactId>command</artifactId>
+    <name>Command</name>
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <description>Command library</description>
-    <url>https://github.com/HexoCraftApi/Command</url>
+    <url>https://github.com/HexoCraftApi/${project.name}</url>
 
 
     <!-- License -->
@@ -40,14 +41,14 @@
 
     <!-- scm -->
     <scm>
-        <url>http://github.com/HexoCraftApi/Command</url>
-        <connection>scm:git:git://github.com/HexoCraftApi/Command.git</connection>
-        <developerConnection>scm:git:git@github.com:HexoCraftApi/Command.git</developerConnection>
+        <url>http://github.com/HexoCraftApi/${project.name}</url>
+        <connection>scm:git:git://github.com/HexoCraftApi/${project.name}.git</connection>
+        <developerConnection>scm:git:git@github.com:HexoCraftApi/${project.name}.git</developerConnection>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/HexoCraftApi/Command/issues</url>
+        <url>https://github.com/HexoCraftApi/${project.name}/issues</url>
     </issueManagement>
 
 
@@ -119,19 +120,6 @@
             <version>[1.10.5, )</version>
             <scope>compile</scope>
         </dependency>
-        <!-- hexosse Sounds -->
-        <dependency>
-            <groupId>com.github.hexocraftapi</groupId>
-            <artifactId>sounds</artifactId>
-            <version>[1.0.0, )</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.github.hexocraftapi</groupId>
-                    <artifactId>reflection</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <!-- hexosse Util -->
         <dependency>
             <groupId>com.github.hexocraftapi</groupId>
@@ -158,6 +146,23 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- hexosse Sounds -->
+        <dependency>
+            <groupId>com.github.hexocraftapi</groupId>
+            <artifactId>sounds</artifactId>
+            <version>[1.0.0, )</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.hexocraftapi</groupId>
+                    <artifactId>reflection</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.github.hexocraftapi</groupId>
+                    <artifactId>util</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!-- Message API -->
         <dependency>
             <groupId>com.github.hexocraftapi</groupId>
@@ -167,11 +172,15 @@
             <exclusions>
                 <exclusion>
                     <groupId>com.github.hexocraftapi</groupId>
-                    <artifactId>chat</artifactId>
+                    <artifactId>reflection</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>com.github.hexocraftapi</groupId>
-                    <artifactId>reflection</artifactId>
+                    <artifactId>util</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.github.hexocraftapi</groupId>
+                    <artifactId>chat</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -255,10 +264,36 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <!-- utterly useless artifact from shade 2.x -->
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <!-- Le fichier jar d'origine est renommé en original-XXXX.jar -->
-                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <filters>
+                                <filter>
+                                    <artifact>com.github.hexocraftapi:util</artifact>
+                                    <excludes>
+                                        <exclude>com/github/hexocraftapi/reflection/**</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.github.hexocraftapi:chat</artifact>
+                                    <excludes>
+                                        <exclude>com/github/hexocraftapi/reflection/**</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.github.hexocraftapi:sounds</artifact>
+                                    <excludes>
+                                        <exclude>com/github/hexocraftapi/reflection/**</exclude>
+                                        <exclude>com/github/hexocraftapi/util/**</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.github.hexocraftapi:message</artifact>
+                                    <excludes>
+                                        <exclude>com/github/hexocraftapi/reflection/**</exclude>
+                                        <exclude>com/github/hexocraftapi/util/**</exclude>
+                                        <exclude>com/github/hexocraftapi/chat/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
                         </configuration>
                     </execution>
                 </executions>
