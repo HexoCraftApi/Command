@@ -199,6 +199,6 @@ public class CommandArgument<T>
 		// Hover event
 		HoverEvent argumentHoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT,argumentHoverText.create());
 		// Add full command to the mine
-		return new Sentence(" " + getTemplate(this)).color(isMandatory()?MessageColor.MANDATORY_ARGUMENT.color():MessageColor.OPTIONAL_ARGUMENT.color()).event(argumentHoverEvent);
+		return new Sentence(getTemplate(this)).color(isMandatory()?MessageColor.MANDATORY_ARGUMENT.color():MessageColor.OPTIONAL_ARGUMENT.color()).event(argumentHoverEvent);
 	}
 }

@@ -51,12 +51,20 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 	static String HELP = Locale.command_help;
 	static String PAGE = Locale.command_page;
 
+	private boolean displayArguments = true;
+	private boolean displayDescription = true;
+	private boolean displayInlineDescription = false;
+
 	public CommandHelp(PluginClass plugin)
 	{
 		super("help", plugin);
 		this.setAliases(Lists.newArrayList(HELP, "help", "h", "?"));
 		this.addArgument(new CommandArgument<Integer>(PAGE, ArgTypeInteger.get(), 1, false, false, Locale.help_page_number));
 	}
+
+	public void setDisplayArguments(boolean displayArguments) { this.displayArguments = displayArguments; }
+	public void setDisplayDescription(boolean displayDescription) { this.displayDescription = displayDescription; }
+	public void setDisplayInlineDescription(boolean displayInlineDescription) { this.displayInlineDescription = displayInlineDescription; }
 
 	/**
 	 * Executes the given command, returning its success
@@ -83,6 +91,9 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 		{
 			CommandInfo mainCommandInfo = new CommandInfo(commandInfo.getSender(), mainCommand, mainCommand.getName(), new String[0], null);
 			MessageHelp mainHelp = new MessageHelp(mainCommandInfo);
+			mainHelp.setDisplayArguments(this.displayArguments);
+			mainHelp.setDisplayDescription(this.displayDescription);
+			mainHelp.setDisplayInlineDescription(this.displayInlineDescription);
 
 			if(command.getPermission()==null)
 				helpLines.add(new HelpLine(mainCommandInfo, mainHelp));
@@ -97,6 +108,9 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 
 			CommandInfo subCommandInfo = new CommandInfo(commandInfo.getSender(), subCommand, subCommand.getName(), new String[0], null);
 			MessageHelp subHelp = new MessageHelp(subCommandInfo);
+			subHelp.setDisplayArguments(this.displayArguments);
+			subHelp.setDisplayDescription(this.displayDescription);
+			subHelp.setDisplayInlineDescription(this.displayInlineDescription);
 
 			if(subCommandInfo.getCommand().getPermission()==null || subCommandInfo.getCommand().getPermission().isEmpty()==true)
 				helpLines.add(new HelpLine(subCommandInfo, subHelp));
@@ -206,7 +220,7 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 		public HelpLine(CommandInfo commandInfo, MessageHelp message)
 		{
 			this.commandInfo = commandInfo;
-			this.message = message;
+			this.message = message.build();
 			this.lines = getLines(message);
 		}
 
@@ -216,8 +230,6 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 			for(Line line : message.getLines())
 				lines.add(line.toString());
 
-			//return FontUtil.wordWrap(StringUtils.join(lines, ' ')).length;
-			//return ChatPaginator.wordWrap(StringUtils.join(lines, ' '), Chat.NO_WRAP_CHAT_PAGE_WIDTH).length;
 			return Chat.wordWrap(StringUtils.join(lines, ' '), Chat.NO_WRAP_CHAT_PAGE_WIDTH).length;
 		}
 	}

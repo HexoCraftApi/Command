@@ -283,6 +283,18 @@ public abstract class Command<PluginClass extends JavaPlugin> extends org.bukkit
 			for(int i=1; i<aliases.length; i++)
 				fullCommandHoverText.append(", ").append(aliases[i]).color(MessageColor.COMMAND.color());
 		}
+		// Arguments
+		if(getArguments()!=null && getArguments().isEmpty()==false)
+		{
+			for(int i=0; i<getArguments().size(); i++)
+			{
+				CommandArgument<?> argument = getArguments().get(i);
+
+				if(i==0) fullCommandHoverText.append("\n").append((getArguments().size()==1?Locale.argument_argument:Locale.argument_arguments) + " : ").color(MessageColor.INFO.color()).append(argument.getName()).color(argument.isMandatory()? MessageColor.MANDATORY_ARGUMENT.color():MessageColor.OPTIONAL_ARGUMENT.color());
+				else     fullCommandHoverText.append(", ").append(argument.getName()).color(MessageColor.COMMAND.color());
+
+			}
+		}
 		// Description
 		if(getDescription()!=null && getDescription().isEmpty()==false)
 		{

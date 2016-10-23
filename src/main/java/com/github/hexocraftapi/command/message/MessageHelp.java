@@ -33,6 +33,13 @@ import com.github.hexocraftapi.message.predifined.MessageColor;
  */
 public class MessageHelp extends Message
 {
+	private final CommandErrorType error;
+	private final CommandInfo commandInfo;
+
+	private boolean displayArguments = true;
+	private boolean displayDescription = true;
+	private boolean displayInlineDescription = false;
+
 	public MessageHelp(CommandInfo commandInfo)
 	{
 		this(null, commandInfo);
@@ -42,6 +49,13 @@ public class MessageHelp extends Message
 	{
 		super();
 
+		this.error = error;
+		this.commandInfo = commandInfo;
+
+	}
+
+	public MessageHelp build()
+	{
 		Command<?> command = commandInfo.getCommand();
 
 		// Not enough parameters for the command
@@ -67,26 +81,37 @@ public class MessageHelp extends Message
 
 		// Lines of the message
 		Line commandLine = new Line();
-		commandLine.add(new Sentence(Character.toString('\u00BB') + " ").color(MessageColor.COMMAND.color()));
+		commandLine.add(new Sentence(Character.toString('\u00BB')).color(MessageColor.COMMAND.color()));
 		// - Full command
 		commandLine.add(command.getHelp());
 		// - Arguments
-		for(CommandArgument<?> argument : command.getArguments())
-			commandLine.add(argument.getHelp());
+		if(this.displayArguments) {
+			for(CommandArgument<?> argument : command.getArguments())
+				commandLine.add(argument.getHelp());
+		}
 		//
-		this.add(commandLine);
+		if(displayInlineDescription==false)
+			this.add(commandLine);
 
 		// - Description
 		// The short text is the first line of the description
-		if(command.getDescription()!=null && command.getDescription().isEmpty()==false)
+		if(this.displayDescription && command.getDescription()!=null && command.getDescription().isEmpty()==false)
 		{
 			// Lines of the message
-			Line DescriptionLine = new Line();
+			if(displayInlineDescription==false)
+				commandLine = new Line();
 
 			String descriptions[] = command.getDescription().split("\\r?\\n");
-			DescriptionLine.add(new Sentence("    " + descriptions[0]).color(MessageColor.DESCRIPTION.color()));
-			//
-			this.add(DescriptionLine);
+			commandLine.add(new Sentence((displayInlineDescription ? "" : "  ") + descriptions[0]).color(MessageColor.DESCRIPTION.color()));
 		}
+
+		//
+		this.add(commandLine);
+
+		return this;
 	}
+
+	public void setDisplayArguments(boolean displayArguments) { this.displayArguments = displayArguments; }
+	public void setDisplayDescription(boolean displayDescription) { this.displayDescription = displayDescription; }
+	public void setDisplayInlineDescription(boolean displayInlineDescription) { this.displayInlineDescription = displayInlineDescription; }
 }
