@@ -77,7 +77,7 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 	public boolean onCommand(CommandInfo commandInfo)
 	{
 		//List<Data> datas = Lists.newArrayList();
-		HelpLines helpLines = new HelpLines(CLOSED_CHAT_PAGE_HEIGHT-1);
+		HelpLines helpLines = new HelpLines(Chat.CHAT_PAGE_HEIGHT-1);
 
 		// Command
 		Command<?> command = commandInfo.getCommand();
