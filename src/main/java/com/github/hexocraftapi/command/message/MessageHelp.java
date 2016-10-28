@@ -106,7 +106,8 @@ public class MessageHelp extends Message
 		}
 
 		//
-		this.add(commandLine);
+		if(displayInlineDescription==true)
+			this.add(commandLine);
 
 		return this;
 	}
