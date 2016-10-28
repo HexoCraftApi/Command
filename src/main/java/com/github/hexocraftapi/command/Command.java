@@ -408,14 +408,14 @@ public abstract class Command<PluginClass extends JavaPlugin> extends org.bukkit
 		if(isMainCommand==true)
 		{
 			// Send Usage Message
-			new MessageHelp(error, commandInfo).send(commandInfo.getSenders());
+			new MessageHelp(error, commandInfo).build().send(commandInfo.getSenders());
 		}
 
 		// Display help of sub command
 		else if(isSubCommand==true)
 		{
 			// Send Usage Message
-			new MessageHelp(error, commandInfo).send(commandInfo.getSenders());
+			new MessageHelp(error, commandInfo).build().send(commandInfo.getSenders());
 		}
 	}
 
