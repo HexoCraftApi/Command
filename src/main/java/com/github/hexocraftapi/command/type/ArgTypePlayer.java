@@ -45,7 +45,7 @@ public class ArgTypePlayer implements ArgType<Player>
 	{
 		try
 		{
-			return Bukkit.getServer().getPlayer(playerName);
+			return PlayerUtil.getPlayer(playerName);
 		}
 		catch(Exception e)
 		{
