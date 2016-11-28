@@ -124,7 +124,7 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 
 		// Title line
 		Sentence prev = getPrev(command, page - 1, maxPages);
-		Sentence help = new Sentence(" " + Locale.help_for_command + " \"" + parentCommand.getName() + "\" ").color(MessageColor.DESCRIPTION.color());
+		Sentence help = new Sentence(Locale.help_for_command + " \"" + parentCommand.getName() + "\"").color(MessageColor.DESCRIPTION.color());
 		Sentence index = getIndex(command, page, maxPages);
 		Sentence next = getNext(command, page + 1, maxPages);
 		Title title = new Title('-', MessageColor.COMMAND.color(), prev, help, index, next );
