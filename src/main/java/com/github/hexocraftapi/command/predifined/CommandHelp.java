@@ -152,7 +152,7 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 		if(totalPage <= 1 || pageNumber <= 0)
 			return new Sentence("");
 
-		Sentence prev = new Sentence(" [<] ");
+		Sentence prev = new Sentence("[<]");
 
 		// Command
 		String helpCommand = "";
@@ -176,7 +176,7 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 		if(totalPage <= 1 || pageNumber <= 0 || pageNumber > totalPage)
 			return new Sentence("");
 
-		Sentence next = new Sentence(" [>] ");
+		Sentence next = new Sentence("[>]");
 
 		// Command
 		String helpCommand = "";
@@ -201,7 +201,7 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 		if(totalPage <= 1 || pageNumber <= 0 || pageNumber > totalPage)
 			return new Sentence("");
 
-		Sentence index = new Sentence(" (" + Integer.toString(pageNumber) + "/" + Integer.toString(totalPage) + ") ");
+		Sentence index = new Sentence("(" + Integer.toString(pageNumber) + "/" + Integer.toString(totalPage) + ")");
 
 		return index.color(MessageColor.DESCRIPTION.color());
 	}
