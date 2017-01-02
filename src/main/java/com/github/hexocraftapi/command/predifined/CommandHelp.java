@@ -159,7 +159,7 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 		while(command.getParentCommand()!=null)
 		{
 			command = command.getParentCommand();
-			helpCommand = command.getName() + " " + helpCommand;
+			helpCommand = command.getName() + (!helpCommand.isEmpty() ? " " + helpCommand : "");
 		}
 		helpCommand = "/" + helpCommand + " " + HELP + " " + Integer.toString(pageNumber);
 
@@ -183,7 +183,7 @@ public class CommandHelp<PluginClass extends JavaPlugin> extends Command<PluginC
 		while(command.getParentCommand()!=null)
 		{
 			command = command.getParentCommand();
-			helpCommand = command.getName() + " " + helpCommand;
+			helpCommand = command.getName() + (!helpCommand.isEmpty() ? " " + helpCommand : "");
 		}
 		helpCommand = "/" + helpCommand + " " + HELP + " " + Integer.toString(pageNumber);
 
