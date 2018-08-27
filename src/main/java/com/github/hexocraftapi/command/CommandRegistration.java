@@ -23,6 +23,7 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -74,29 +75,26 @@ public class CommandRegistration
 		return false;
 	}
 
-	public static boolean isRegisteredCommand(JavaPlugin plugin, Command command)
-	throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException
+	public static boolean isRegisteredCommand(JavaPlugin plugin, Command command) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException
 	{
 		return getKnownCommands(plugin.getServer()).get(command.getName().toLowerCase().trim()) != null;
 	}
 
-	private static SimpleCommandMap getCommandMap(Server server)
-	throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
+	private static SimpleCommandMap getCommandMap(Server server) throws NoSuchFieldException, IllegalAccessException {
+		//Method getCommandMapMethod = MethodUtil.getMethod(server.getClass(), "getCommandMap");
+		//return (SimpleCommandMap) getCommandMapMethod.invoke(server);
+        return (SimpleCommandMap) FieldUtil.getField(server.getClass(), "commandMap", server);
+
+    }
+
+	private static Map<String, Command> getKnownCommands(Server server) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException
 	{
-		Method getCommandMapMethod = MethodUtil.getMethod(server.getClass(), "getCommandMap");
-		return (SimpleCommandMap) getCommandMapMethod.invoke(server);
+        SimpleCommandMap simpleCommandMap = getCommandMap(server);
+		return getKnownCommands(simpleCommandMap);
 	}
 
-	private static Map<String, Command> getKnownCommands(Server server)
-	throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException
+	private static Map<String, Command> getKnownCommands(SimpleCommandMap simpleCommandMap) throws NoSuchFieldException, IllegalAccessException
 	{
-		CommandMap commandMap = getCommandMap(server);
-		return getKnownCommands(commandMap);
-	}
-
-	private static Map<String, Command> getKnownCommands(CommandMap commandMap)
-	throws NoSuchFieldException, IllegalAccessException
-	{
-		return (Map<String, Command>) FieldUtil.getField("knownCommands", commandMap);
+		return (Map<String, Command>) FieldUtil.getField(SimpleCommandMap.class, "knownCommands", simpleCommandMap);
 	}
 }
